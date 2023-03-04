@@ -1,0 +1,64 @@
+create database curso_sql;
+use curso_sql;
+create table funcionarios
+(
+    id int unsigned not null auto_increment,
+    nome varchar(45) not null,
+    salario double not null default '0',
+    departamento varchar (45) not null,
+    primary key(id)
+);
+create table veiculos
+( 
+id int unsigned not null auto_increment,
+funcionario_id int unsigned default null,
+veiculo varchar(45) not null default ' ',
+placa varchar(10) not null default ' ',
+primary key(id),
+constraint fk_veiculos_funcionarios foreign key (funcionario_id) references funcionarios (id)
+);
+ create table salarios
+ (
+ faixa varchar(45) not null,
+ inicio double not null,
+ fim double not null,
+ primary key(faixa)
+ );
+ alter table funcionarios change column nome nome_func varchar(45) not null;
+ alter table funcionarios change column nome_func nome varchar(45) not null;
+ 
+ drop table salarios;
+create index departamentos on funcionarios(departamento);
+create index nomes on funcionarios(nome(6));
+insert into funcionarios(id, nome, salario,departamento)values(1,"lucas",1000,"ti");
+select * from  funcionarios;
+insert into funcionarios(id, nome, salario,departamento)values(2,"charliton",4000,"ti");
+insert into funcionarios(nome, salario,departamento)values("charlinho",4000,"ti");
+select * from funcionarios where salario > 1000;
+select * from funcionarios where salario > 500;
+select * from funcionarios ;
+set sql_safe_updates=0;
+/* para abilitar o safe_updates: set sql_safe_updates=1;*/
+update funcionarios set salario= salario * 1.1;
+update funcionarios set salario= salario *2 where salario < 2000;
+/* o comando abaixo arredonda o resultado em duas casas após a vírgula*/
+update funcionarios set salario= round(salario * 3,2);
+/* apagar registro específico*/
+delete from funcionarios where id=3;
+insert into veiculos (funcionario_id,veiculo,placa) values(1,'gol','ppppppp');
+insert into veiculos (funcionario_id,veiculo,placa) values(1,'ford','dddddddd');
+select * from veiculos;
+select * from funcionarios;
+insert into funcionarios (nome,salario,departamento)values('amanda',4000,'saude');
+update veiculos set funcionario_id = 4 where id=2;
+insert into salarios (faixa,inicio,fim) values ('programador',2000,5000);
+insert into salarios (faixa, inicio, fim) values( 'medica', 4000,10000);
+select * from salarios;
+select faixa,inicio from salarios;
+
+select* from funcionarios;
+
+/*comando para unir buscas*/
+select* from funcionarios where id=1
+union
+select* from funcionarios where nome='amanda';
